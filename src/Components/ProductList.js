@@ -6,12 +6,7 @@ class ProductList extends React.Component {
     const products = this.props.products.map(product => {
       return <ProductCard product={product} />;
     });
-    return (
-      <div>
-        <h1>okay</h1>
-        {products}
-      </div>
-    );
+    return <div>{products}</div>;
   }
 }
 

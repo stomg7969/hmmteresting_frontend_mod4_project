@@ -2,7 +2,6 @@ import React from "react";
 
 class ProductCard extends React.Component {
   render() {
-    console.log("product Card", this.props.product.company);
     const {
       category,
       name,

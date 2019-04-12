@@ -7,13 +7,12 @@ class UserContainer extends React.Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:3000/products")
+    fetch("http://localhost:3001/products")
       .then(r => r.json())
       .then(products => this.setState({ products }));
   }
 
   render() {
-    console.log("prducts are: ", this.state.products);
     return <ProductContainer products={this.state.products} />;
   }
 }
