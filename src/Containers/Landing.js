@@ -1,8 +1,15 @@
 import React from "react";
+import UserContainer from "./UserContainer";
+import CompanyContainer from "./CompanyContainer";
 
 class Landing extends React.Component {
   render() {
-    return <h1>hi</h1>;
+    return (
+      <div>
+        <UserContainer />
+        <CompanyContainer />
+      </div>
+    );
   }
 }
 
