@@ -10,3 +10,6 @@ class App extends Component {
 }
 
 export default App;
+
+// need to work on edits for both company and user,
+// need to make the fetch work for an individual user

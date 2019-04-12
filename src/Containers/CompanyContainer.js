@@ -9,7 +9,7 @@ class CompanyContainer extends React.Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:3001/companies/1/products")
+    fetch("http://localhost:3000/companies/1/products")
       .then(resp => resp.json())
       .then(companyProducts => this.setState({ companyProducts }));
   }
