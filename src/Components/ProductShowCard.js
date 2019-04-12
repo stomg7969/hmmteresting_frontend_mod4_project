@@ -8,6 +8,7 @@ class ProductShowCard extends React.Component {
         <h3>{product.company.name}</h3>
         <img src={product.company.logo} alt="" />
         <h4>{product.company.catch_phrase}</h4>
+        <p>{product.description}</p>
       </div>
     );
   }

@@ -13,7 +13,6 @@ class ProductCard extends React.Component {
   };
 
   render() {
-    console.log("product Card", this.props.product.company, this.state.clicked);
     const {
       category,
       name,
