@@ -2,12 +2,16 @@ import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import UserContainer from "./UserContainer";
 import CompanyContainer from "./CompanyContainer";
+import NavBar from "../Components/NavBar";
 
 class Landing extends React.Component {
   render() {
     return (
       <div>
+        <NavBar />
         <Switch>
+          <Route path="/user" component={UserContainer} />
+          <Route path="/company" component={CompanyContainer} />
           <Route
             path="/"
             render={() => (
@@ -30,8 +34,6 @@ class Landing extends React.Component {
             )}
           />
           {/* the buttons will lead to login/signup components */}
-          <Route path="/user" component={UserContainer} />
-          <Route path="/company" component={CompanyContainer} />
         </Switch>
       </div>
     );

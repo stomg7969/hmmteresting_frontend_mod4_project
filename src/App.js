@@ -8,9 +8,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route>
-          <Landing />
-        </Route>
+        <Route path="/" component={Landing} />
       </div>
     );
   }
