@@ -1,11 +1,18 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
 import Landing from "./Containers/Landing";
 
 class App extends Component {
   render() {
-    return <Landing />;
+    return (
+      <div>
+        <Route>
+          <Landing />
+        </Route>
+      </div>
+    );
   }
 }
 
