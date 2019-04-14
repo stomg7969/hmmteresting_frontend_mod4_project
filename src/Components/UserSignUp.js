@@ -45,7 +45,10 @@ class UserSignUp extends React.Component {
             value={this.state.password}
             placeholder="Enter a Password"
           />
-          <button onClick={null} type="submit">
+          <button
+            onClick={e => this.props.handleUserSignUp(e, this.state)}
+            type="submit"
+          >
             Sign Up
           </button>
         </form>
