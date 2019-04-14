@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, withRouter } from "react-router-dom";
 import UserContainer from "./UserContainer";
 import CompanyContainer from "./CompanyContainer";
 import NavBar from "../Components/NavBar";
@@ -17,6 +17,9 @@ class Landing extends React.Component {
             render={() => (
               <div>
                 <div>
+                  <p>
+                    after signup / login, welcome 'username' should be rendered
+                  </p>
                   <label for="">User</label>
                   <Link to="/user">
                     <button>Login</button>
