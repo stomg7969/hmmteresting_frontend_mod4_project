@@ -3,8 +3,6 @@ import ProductContainer from "./ProductContainer";
 import CompanyAccount from "../Components/CompanyAccount";
 import Filter from "../Components/Filter";
 
-// const URLS = "http://localhost:3001/";
-
 class CompanyContainer extends React.Component {
   state = {
     company: "",

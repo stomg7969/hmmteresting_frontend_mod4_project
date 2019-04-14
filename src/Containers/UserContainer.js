@@ -1,6 +1,5 @@
 import React from "react";
 import ProductContainer from "./ProductContainer";
-// import UserAccount from "../Containers/UserAccount";
 
 class UserContainer extends React.Component {
   state = {
@@ -10,11 +9,11 @@ class UserContainer extends React.Component {
 
   componentDidMount() {
     // need to be a specific user, not users
-    fetch("http://localhost:3000/users")
+    fetch("http://localhost:3001/users")
       .then(r => r.json())
       .then(users => this.setState({ users }));
 
-    fetch("http://localhost:3000/products")
+    fetch("http://localhost:3001/products")
       .then(r => r.json())
       .then(products => this.setState({ products }));
   }
