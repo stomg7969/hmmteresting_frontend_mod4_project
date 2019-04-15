@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 class UserSignUp extends React.Component {
   state = {
@@ -10,6 +11,12 @@ class UserSignUp extends React.Component {
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleUserSignUp = e => {
+    e.preventDefault();
+    this.props.handleUserSignUp(this.state);
+    this.setState({ username: "", email: "", img: "", password: "" });
   };
 
   render() {
@@ -45,10 +52,7 @@ class UserSignUp extends React.Component {
             value={this.state.password}
             placeholder="Enter a Password"
           />
-          <button
-            onClick={e => this.props.handleUserSignUp(e, this.state)}
-            type="submit"
-          >
+          <button onClick={this.handleUserSignUp} type="submit">
             Sign Up
           </button>
         </form>

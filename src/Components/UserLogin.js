@@ -10,6 +10,12 @@ class UserLogin extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleUserLogin = e => {
+    e.preventDefault();
+    this.props.handleUserLogin(this.state);
+    this.setState({ username: "", password: "" });
+  };
+
   render() {
     return (
       <div>
@@ -29,7 +35,7 @@ class UserLogin extends React.Component {
             value={this.state.password}
             placeholder="Enter Password"
           />
-          <button onClick={null} type="submit">
+          <button onClick={this.handleUserLogin} type="submit">
             Log In
           </button>
         </form>

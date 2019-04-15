@@ -7,6 +7,7 @@ import UserLogin from "../Components/UserLogin";
 import UserSignUp from "../Components/UserSignUp";
 import CompanySignUp from "../Components/CompanySignUp";
 import CompanyLogin from "../Components/CompanyLogin";
+import ProductContainer from "./ProductContainer";
 
 class Landing extends React.Component {
   state = {
@@ -14,24 +15,8 @@ class Landing extends React.Component {
     company: {}
   };
 
-  componentDidMount() {
-    let token = localStorage.getItem("token");
-    debugger;
-    console.log("app did mount", token);
-    fetch("http://localhost:3000/api/v1/get_user", {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        accepts: "application/json",
-        authorization: `${token}`
-      }
-    })
-      .then(resp => resp.json())
-      .then(data => this.setState({ user: data.user }));
-  }
-
-  handleUserSignUp = (e, input) => {
-    e.preventDefault();
+  //============= HANDLES USER SIGNUP ===============//
+  handleUserSignUp = input => {
     fetch("http://localhost:3000/api/v1/users", {
       method: "POST",
       headers: {
@@ -43,26 +28,49 @@ class Landing extends React.Component {
           username: input.username,
           email: input.email,
           img: input.img,
-          password_digest: input.password
+          password: input.password
         }
       })
     })
       .then(resp => resp.json())
       .then(data => {
-        // console.log("1", data, "2", data.user, "3", data.token);
         this.setState({ user: data.user });
         localStorage.setItem("token", data.token);
-        // what is 'token'? can we name it with something else? (user, company)
+      });
+  };
+
+  //============= HANDLES USER LOGIN ===============//
+  handleUserLogin = user => {
+    console.log(user);
+    fetch("http://localhost:3000/api/v1/login_user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accepts: "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          username: user.username,
+          password: user.password
+        }
+      })
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        localStorage.setItem("token", data.jwt);
+        this.setState({ user: data.user });
       });
   };
 
   render() {
-    console.log("state", this.state.user, "storage", localStorage);
     return (
       <div>
         <NavBar />
         <Switch>
-          <Route path="/user/login" component={UserLogin} />
+          <Route
+            path="/user/login"
+            render={() => <UserLogin handleUserLogin={this.handleUserLogin} />}
+          />
           <Route
             path="/user/signup"
             render={() => (
@@ -81,7 +89,7 @@ class Landing extends React.Component {
                   <p>
                     after signup / login, welcome 'username' should be rendered
                   </p>
-                  <label for="">User</label>
+                  <label htmlFor="">User</label>
                   <Link to="/user/login">
                     <button>Login</button>
                   </Link>
@@ -90,7 +98,7 @@ class Landing extends React.Component {
                   </Link>
                 </div>
                 <div>
-                  <label for="">Company</label>
+                  <label htmlFor="">Company</label>
                   <Link to="/company/login">
                     <button>Login</button>
                   </Link>
