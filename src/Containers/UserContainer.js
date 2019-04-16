@@ -20,7 +20,7 @@ class UserContainer extends React.Component {
         }
       })
         .then(resp => resp.json())
-        .then(data => this.setState({ products: data }));
+        .then(data => this.setState({ products: data, clicked: true }));
     } else {
       alert("log in.");
       this.props.history.push("/");
@@ -41,10 +41,6 @@ class UserContainer extends React.Component {
   // }
 
   //============= CLICK HANDLERS ===============//
-  handleProfileClick = () => {
-    console.log("clicked");
-    this.setState({ clicked: true });
-  };
 
   render() {
     return (
@@ -52,23 +48,22 @@ class UserContainer extends React.Component {
         <NavBar
           user={this.props.user.username ? this.props.user : ""}
           handleLogoutClick={this.props.handleLogoutClick}
-          handleProfileClick={this.handleProfileClick}
         />
         <Switch>
           <Route
             path="/user/account"
-            render={() => <UserAccount user={this.props.user} />}
+            render={() => (
+              <UserAccount
+                user={this.props.user}
+                submitHandler={this.props.submitHandler}
+              />
+            )}
+          />
+          <Route
+            path="/user"
+            render={() => <ProductContainer products={this.state.products} />}
           />
         </Switch>
-        {this.state.clicked ? null : (
-          <ProductContainer products={this.state.products} />
-        )}
-        <p>
-          {/* localStorage.getItem("token")
-            ? this.fetchProducts()
-            : "token does not exist" */}
-        </p>
-        {/* <UserAccount submitHandler={this.submitHandler} /> we need router & fetch get request & pass down props for this */}
       </div>
     );
   }

@@ -43,10 +43,10 @@ class Landing extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
+        localStorage.setItem("token", data.token);
         this.setState({ user: data.user }, () =>
           this.props.history.push("/user")
         );
-        localStorage.setItem("token", data.token);
       });
   };
 
@@ -84,7 +84,28 @@ class Landing extends React.Component {
   //============= LOGIN HELPER METHOD ===============//
   loggedIn = () => this.state.user.username;
 
+  //============= EDIT USER PROFILE ===============//
+  submitHandler = (userInfo, id) => {
+    console.log("clicked", userInfo);
+    let token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/api/v1/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`
+      },
+      body: JSON.stringify({
+        username: userInfo.username,
+        img: userInfo.img,
+        email: userInfo.email
+      })
+    })
+      .then(r => r.json())
+      .then(data => this.setState({ user: data }));
+  };
+
   render() {
+    console.log(this.state.user.username);
     return (
       <div>
         <Switch>
@@ -106,6 +127,7 @@ class Landing extends React.Component {
               <UserContainer
                 user={this.state.user}
                 handleLogoutClick={this.handleLogoutClick}
+                submitHandler={this.submitHandler}
               />
             )}
           />
