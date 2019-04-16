@@ -10,37 +10,40 @@ class UserContainer extends React.Component {
   componentDidMount() {
     let token = localStorage.getItem("token");
     console.log("THE TOKEN", token);
-
-    fetch("http://localhost:3000/products", {
-      headers: {
-        authorization: `${token}`
-      }
-    })
-      .then(resp => resp.json())
-      .then(data => console.log(data));
+    if (token) {
+      fetch("http://localhost:3000/products", {
+        headers: {
+          authorization: `${token}`
+        }
+      })
+        .then(resp => resp.json())
+        .then(data => this.setState({ products: data }));
+    } else {
+      return null;
+    }
   }
 
-  fetchProducts() {
-    let token = localStorage.getItem("token");
-    console.log("THE TOKEN", token);
-
-    fetch("http://localhost:3000/products", {
-      headers: {
-        authorization: `${token}`
-      }
-    })
-      .then(resp => resp.json())
-      .then(data => console.log(data));
-  }
+  // fetchProducts() {
+  //   let token = localStorage.getItem("token");
+  //   console.log("THE TOKEN", token);
+  //
+  //   fetch("http://localhost:3000/products", {
+  //     headers: {
+  //       authorization: `${token}`
+  //     }
+  //   })
+  //     .then(resp => resp.json())
+  //     .then(data => console.log(data));
+  // }
 
   render() {
     return (
       <div>
         <ProductContainer products={this.state.products} />
         <p>
-          {localStorage.getItem("token")
+          {/* localStorage.getItem("token")
             ? this.fetchProducts()
-            : "token does not exist"}
+            : "token does not exist" */}
         </p>
         {/* <UserAccount submitHandler={this.submitHandler} /> we need router & fetch get request & pass down props for this */}
       </div>

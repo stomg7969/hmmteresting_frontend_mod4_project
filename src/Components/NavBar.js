@@ -8,6 +8,7 @@ class NavBar extends React.Component {
         <Link to="/">
           <span>Landing Page</span>
         </Link>
+        <button onClick={this.props.handleLogoutClick}>LogOut</button>
       </div>
     );
   }

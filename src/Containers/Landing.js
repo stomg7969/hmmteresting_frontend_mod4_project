@@ -34,14 +34,15 @@ class Landing extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        this.setState({ user: data.user });
+        this.setState({ user: data.user }, () =>
+          this.props.history.push("/user")
+        );
         localStorage.setItem("token", data.token);
       });
   };
 
   //============= HANDLES USER LOGIN ===============//
   handleUserLogin = user => {
-    console.log(user);
     fetch("http://localhost:3000/api/v1/login_user", {
       method: "POST",
       headers: {
@@ -58,14 +59,27 @@ class Landing extends React.Component {
       .then(resp => resp.json())
       .then(data => {
         localStorage.setItem("token", data.jwt);
-        this.setState({ user: data.user });
+        this.setState({ user: data.user }, () =>
+          this.props.history.push("/user")
+        );
       });
   };
 
+  //============= HANDLES USER LOGOUT ===============//
+  handleLogoutClick = () => {
+    localStorage.removeItem("token");
+    this.setState({ user: {} }, () => console.log("logged out"));
+    this.props.history.push("/");
+  };
+
+  //============= LOGIN HELPER METHOD ===============//
+  loggedIn = () => this.state.user.username;
+
   render() {
+    // this.loggedIn() ? null : console.log("blach");
     return (
       <div>
-        <NavBar />
+        <NavBar handleLogoutClick={this.handleLogoutClick} />
         <Switch>
           <Route
             path="/user/login"
@@ -116,4 +130,4 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+export default withRouter(Landing);
