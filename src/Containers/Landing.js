@@ -2,18 +2,27 @@ import React from "react";
 import { Route, Switch, Link, withRouter } from "react-router-dom";
 import UserContainer from "./UserContainer";
 import CompanyContainer from "./CompanyContainer";
-import NavBar from "../Components/NavBar";
 import UserLogin from "../Components/UserLogin";
 import UserSignUp from "../Components/UserSignUp";
 import CompanySignUp from "../Components/CompanySignUp";
 import CompanyLogin from "../Components/CompanyLogin";
-import ProductContainer from "./ProductContainer";
 
 class Landing extends React.Component {
   state = {
     user: {},
     company: {}
   };
+
+  componentDidMount() {
+    let token = localStorage.getItem("token");
+    fetch("http://localhost:3000/api/v1/get_user", {
+      headers: {
+        authorization: `${token}`
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => this.setState({ user: data.user }));
+  }
 
   //============= HANDLES USER SIGNUP ===============//
   handleUserSignUp = input => {
@@ -76,10 +85,8 @@ class Landing extends React.Component {
   loggedIn = () => this.state.user.username;
 
   render() {
-    // this.loggedIn() ? null : console.log("blach");
     return (
       <div>
-        <NavBar handleLogoutClick={this.handleLogoutClick} />
         <Switch>
           <Route
             path="/user/login"
@@ -93,7 +100,15 @@ class Landing extends React.Component {
           />
           <Route path="/company/login" component={CompanyLogin} />
           <Route path="/company/signup" component={CompanySignUp} />
-          <Route path="/user" component={UserContainer} />
+          <Route
+            path="/user"
+            render={() => (
+              <UserContainer
+                user={this.state.user}
+                handleLogoutClick={this.handleLogoutClick}
+              />
+            )}
+          />
           <Route path="/company" component={CompanyContainer} />
           <Route
             path="/"

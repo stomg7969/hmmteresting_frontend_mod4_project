@@ -1,10 +1,13 @@
 import React from "react";
+import { Route, Switch, withRouter } from "react-router-dom";
 import ProductContainer from "./ProductContainer";
+import UserAccount from "../Components/UserAccount";
+import NavBar from "../Components/NavBar";
 
 class UserContainer extends React.Component {
   state = {
     products: [],
-    user: {}
+    clicked: false
   };
 
   componentDidMount() {
@@ -19,7 +22,8 @@ class UserContainer extends React.Component {
         .then(resp => resp.json())
         .then(data => this.setState({ products: data }));
     } else {
-      return null;
+      alert("log in.");
+      this.props.history.push("/");
     }
   }
 
@@ -36,10 +40,29 @@ class UserContainer extends React.Component {
   //     .then(data => console.log(data));
   // }
 
+  //============= CLICK HANDLERS ===============//
+  handleProfileClick = () => {
+    console.log("clicked");
+    this.setState({ clicked: true });
+  };
+
   render() {
     return (
       <div>
-        <ProductContainer products={this.state.products} />
+        <NavBar
+          user={this.props.user.username ? this.props.user : ""}
+          handleLogoutClick={this.props.handleLogoutClick}
+          handleProfileClick={this.handleProfileClick}
+        />
+        <Switch>
+          <Route
+            path="/user/account"
+            render={() => <UserAccount user={this.props.user} />}
+          />
+        </Switch>
+        {this.state.clicked ? null : (
+          <ProductContainer products={this.state.products} />
+        )}
         <p>
           {/* localStorage.getItem("token")
             ? this.fetchProducts()
@@ -51,4 +74,4 @@ class UserContainer extends React.Component {
   }
 }
 
-export default UserContainer;
+export default withRouter(UserContainer);
