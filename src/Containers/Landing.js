@@ -43,10 +43,11 @@ class Landing extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        this.setState({ user: data.user }, () =>
-          this.props.history.push("/user")
-        );
-        localStorage.setItem("token", data.token);
+        console.log(data);
+        // localStorage.setItem("token", data.token);
+        // this.setState({ user: data.user }, () =>
+        //   this.props.history.push("/user")
+        // );
       });
   };
 
@@ -67,10 +68,14 @@ class Landing extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        localStorage.setItem("token", data.jwt);
-        this.setState({ user: data.user }, () =>
-          this.props.history.push("/user")
-        );
+        if (data.jwt) {
+          localStorage.setItem("token", data.jwt);
+          this.setState({ user: data.user }, () =>
+            this.props.history.push("/user")
+          );
+        } else {
+          this.props.history.push("/");
+        }
       });
   };
 
@@ -115,9 +120,6 @@ class Landing extends React.Component {
             render={() => (
               <div>
                 <div>
-                  <p>
-                    after signup / login, welcome 'username' should be rendered
-                  </p>
                   <label htmlFor="">User</label>
                   <Link to="/user/login">
                     <button>Login</button>
@@ -138,7 +140,6 @@ class Landing extends React.Component {
               </div>
             )}
           />
-          {/* the buttons will lead to login/signup components */}
         </Switch>
       </div>
     );

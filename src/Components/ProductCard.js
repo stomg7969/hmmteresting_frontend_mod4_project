@@ -21,11 +21,16 @@ class ProductCard extends React.Component {
       quota,
       company
     } = this.props.product;
+
+    const interests = this.props.product.interests;
+
     return (
       <div>
         <h5>{name}</h5>
         <img onClick={this.clickHandler} src={img} alt="" />
-        <h5>👀 0/{quota}</h5>
+        <h5>
+          {interests.length}/{quota}
+        </h5>
         {this.state.clicked ? (
           <ProductShowCard product={this.props.product} />
         ) : null}
