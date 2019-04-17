@@ -185,11 +185,30 @@ class Landing extends React.Component {
       });
   };
 
+  //============= HANDLES COMPANY LOGOUT ===============//
   handleCompanyLogoutClick = () => {
     localStorage.removeItem("company_token");
     this.setState({ company: {} }, () => console.log("logged out"));
     this.props.history.push("/");
   };
+
+  //============= HANDLES COMPANY EDIT ===============//
+  // handleCompanyEditClick = (companyInfo, id) => {
+  //   let token = localStorage.getItem("company_token");
+  //
+  //   fetch(`http://localhost:3000/api/v1/company/${id}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       authorization: `${token}`
+  //     },
+  //     body: JSON.stringify({
+  //       username: companyInfo.name,
+  //       catch_phrase: companyInfo.catch_phrase,
+  //       logo: companyInfo.logo
+  //     })
+  //   });
+  // };
 
   render() {
     return (
@@ -242,7 +261,7 @@ class Landing extends React.Component {
               <div>
                 <div>
                   <h1>HMMMTERESTING</h1>
-                  <h3>A site for testing ideas</h3>
+                  <h3>A place to test & support ideas</h3>
                   <label htmlFor="">User</label>
                   <Link to="/user/login">
                     <button>Login</button>
@@ -270,3 +289,10 @@ class Landing extends React.Component {
 }
 
 export default withRouter(Landing);
+
+// WHATS LEFT? priority 1 - 5
+// COMPANY EDIT 4
+// COMPANY DELETE 3
+// CREATE NEW PRODUCT 5
+// INTERESTED BUTTON 5
+// STYLE 3
