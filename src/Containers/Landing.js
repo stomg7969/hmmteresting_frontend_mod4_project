@@ -43,10 +43,15 @@ class Landing extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        localStorage.setItem("token", data.token);
-        this.setState({ user: data.user }, () =>
-          this.props.history.push("/user")
-        );
+        if (data.error) {
+          alert("Incorrect Information");
+          this.props.history.push("/user/signup");
+        } else {
+          localStorage.setItem("token", data.token);
+          this.setState({ user: data.user }, () =>
+            this.props.history.push("/user")
+          );
+        }
       });
   };
 
@@ -67,10 +72,15 @@ class Landing extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        localStorage.setItem("token", data.jwt);
-        this.setState({ user: data.user }, () =>
-          this.props.history.push("/user")
-        );
+        if (data.message) {
+          alert(data.message);
+          this.props.history.push("/user/login");
+        } else {
+          localStorage.setItem("token", data.jwt);
+          this.setState({ user: data.user }, () =>
+            this.props.history.push("/user")
+          );
+        }
       });
   };
 
@@ -88,6 +98,7 @@ class Landing extends React.Component {
   submitHandler = (userInfo, id) => {
     console.log("clicked", userInfo);
     let token = localStorage.getItem("token");
+
     fetch(`http://localhost:3000/api/v1/users/${id}`, {
       method: "PATCH",
       headers: {
@@ -105,7 +116,6 @@ class Landing extends React.Component {
   };
 
   render() {
-    console.log(this.state.user.username);
     return (
       <div>
         <Switch>
