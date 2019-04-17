@@ -302,6 +302,7 @@ class Landing extends React.Component {
           />
         </Switch>
         <marquee>
+          <h4>Welcome to Matt's & Nate's Site 😬</h4>
           <img
             src="https://scontent-frx5-1.cdninstagram.com/vp/404075a9dd68aba5d884168d174e0517/5D035AE7/t51.2885-15/e35/52106110_1173971312766966_8714462964203933292_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&se=7&ig_cache_key=MTk4OTAwMDczMDQ0MjQzMDg5NQ%3D%3D.2"
             alt=""
