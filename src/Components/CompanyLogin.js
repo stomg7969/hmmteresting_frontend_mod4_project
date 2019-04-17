@@ -10,6 +10,12 @@ class CompanyLogin extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleCompanyLogin = e => {
+    e.preventDefault();
+    this.props.handleCompanyLogin(this.state);
+    this.setState({ name: "", password: "" });
+  };
+
   render() {
     return (
       <div>
@@ -29,7 +35,7 @@ class CompanyLogin extends React.Component {
             value={this.state.password}
             placeholder="Enter Password"
           />
-          <button onClick={null} type="submit">
+          <button onClick={this.handleCompanyLogin} type="submit">
             Log In
           </button>
         </form>

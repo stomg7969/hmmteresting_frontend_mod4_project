@@ -14,14 +14,28 @@ class Landing extends React.Component {
   };
 
   componentDidMount() {
-    let token = localStorage.getItem("token");
-    fetch("http://localhost:3000/api/v1/get_user", {
-      headers: {
-        authorization: `${token}`
-      }
-    })
-      .then(resp => resp.json())
-      .then(data => this.setState({ user: data.user }));
+    let user_token = localStorage.getItem("user_token");
+    let company_token = localStorage.getItem("company_token");
+
+    if (user_token) {
+      fetch("http://localhost:3000/api/v1/get_user", {
+        headers: {
+          authorization: `${user_token}`
+        }
+      })
+        .then(resp => resp.json())
+        .then(user => this.setState({ user }))
+        .catch(() => console.log("ERROR"));
+    } else if (company_token) {
+      fetch("http://localhost:3000/api/v1/get_company", {
+        headers: {
+          authorization: `${company_token}`
+        }
+      })
+        .then(resp => resp.json())
+        .then(company => this.setState({ company }))
+        .catch(() => console.log("ERROR"));
+    }
   }
 
   //============= HANDLES USER SIGNUP ===============//
@@ -47,7 +61,7 @@ class Landing extends React.Component {
           alert("Incorrect Information");
           this.props.history.push("/user/signup");
         } else {
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("user_token", data.token);
           this.setState({ user: data.user }, () =>
             this.props.history.push("/user")
           );
@@ -76,7 +90,7 @@ class Landing extends React.Component {
           alert(data.message);
           this.props.history.push("/user/login");
         } else {
-          localStorage.setItem("token", data.jwt);
+          localStorage.setItem("user_token", data.jwt);
           this.setState({ user: data.user }, () =>
             this.props.history.push("/user")
           );
@@ -86,9 +100,38 @@ class Landing extends React.Component {
 
   //============= HANDLES USER LOGOUT ===============//
   handleLogoutClick = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("user_token");
     this.setState({ user: {} }, () => console.log("logged out"));
     this.props.history.push("/");
+  };
+
+  //============= HANDLES USER LOGIN ===============//
+  handleCompanyLogin = company => {
+    fetch("http://localhost:3000/api/v1/login_company", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accepts: "application/json"
+      },
+      body: JSON.stringify({
+        company: {
+          name: company.name,
+          password: company.password
+        }
+      })
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.message) {
+          alert(data.message);
+          this.props.history.push("/company/login");
+        } else {
+          localStorage.setItem("company_token", data.jwt);
+          this.setState({ company: data.company }, () => {
+            this.props.history.push("/company");
+          });
+        }
+      });
   };
 
   //============= LOGIN HELPER METHOD ===============//
@@ -97,7 +140,7 @@ class Landing extends React.Component {
   //============= EDIT USER PROFILE ===============//
   submitHandler = (userInfo, id) => {
     console.log("clicked", userInfo);
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("user_token");
 
     fetch(`http://localhost:3000/api/v1/users/${id}`, {
       method: "PATCH",
@@ -129,7 +172,12 @@ class Landing extends React.Component {
               <UserSignUp handleUserSignUp={this.handleUserSignUp} />
             )}
           />
-          <Route path="/company/login" component={CompanyLogin} />
+          <Route
+            path="/company/login"
+            render={() => (
+              <CompanyLogin handleCompanyLogin={this.handleCompanyLogin} />
+            )}
+          />
           <Route path="/company/signup" component={CompanySignUp} />
           <Route
             path="/user"
@@ -141,15 +189,17 @@ class Landing extends React.Component {
               />
             )}
           />
-          <Route path="/company" component={CompanyContainer} />
+          <Route
+            path="/company"
+            render={() => <CompanyContainer company={this.state.company} />}
+          />
           <Route
             path="/"
             render={() => (
               <div>
                 <div>
-                  <p>
-                    after signup / login, welcome 'username' should be rendered
-                  </p>
+                  <h1>HMMMTERESTING</h1>
+                  <h3>A site for testing ideas</h3>
                   <label htmlFor="">User</label>
                   <Link to="/user/login">
                     <button>Login</button>
@@ -170,7 +220,6 @@ class Landing extends React.Component {
               </div>
             )}
           />
-          {/* the buttons will lead to login/signup components */}
         </Switch>
       </div>
     );

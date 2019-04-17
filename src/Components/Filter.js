@@ -6,10 +6,10 @@ class Filter extends React.Component {
   render() {
     return (
       <div>
-        <label for="search">Search</label>
+        <label htmlFor="search">Search</label>
         <input type="text" name="search" value="" />
         <br />
-        <label for="catgory">Category</label>
+        <label htmlFor="catgory">Category</label>
         <input type="checkbox" name="category" value="" />
         <br />
         <label>Sort By</label>

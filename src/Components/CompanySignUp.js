@@ -22,7 +22,7 @@ class CompanySignUp extends React.Component {
             type="text"
             name="name"
             value={this.state.name}
-            placeholder="Enter a Username"
+            placeholder="Enter Your Company Name"
           />
           <input
             onChange={this.handleChange}
@@ -36,7 +36,7 @@ class CompanySignUp extends React.Component {
             type="text"
             name="logo"
             value={this.state.logo}
-            placeholder="Enter an Image Url"
+            placeholder="Enter an Image Url for Logo"
           />
           <input
             onChange={this.handleChange}

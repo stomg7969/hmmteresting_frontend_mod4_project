@@ -23,13 +23,13 @@ class ProductCard extends React.Component {
     } = this.props.product;
 
     const interests = this.props.product.interests;
-
+    console.log("WHAT AM I?", this.props.product.company);
     return (
       <div>
         <h5>{name}</h5>
         <img onClick={this.clickHandler} src={img} alt="" />
         <h5>
-          {interests.length}/{quota}
+          {/*interests.length*/}/{quota}
         </h5>
         {this.state.clicked ? (
           <ProductShowCard product={this.props.product} />

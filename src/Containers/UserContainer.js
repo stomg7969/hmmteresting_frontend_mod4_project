@@ -11,7 +11,7 @@ class UserContainer extends React.Component {
   };
 
   componentDidMount() {
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("user_token");
     console.log("THE TOKEN", token);
     if (token) {
       fetch("http://localhost:3000/products", {
