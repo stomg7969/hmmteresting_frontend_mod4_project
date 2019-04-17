@@ -12,6 +12,12 @@ class CompanySignUp extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleCompanySignUp = e => {
+    e.preventDefault();
+    this.props.handleCompanySignUp(this.state);
+    this.setState({ name: "", catch_phrase: "", logo: "", password: "" });
+  };
+
   render() {
     return (
       <div>
@@ -29,7 +35,7 @@ class CompanySignUp extends React.Component {
             type="text"
             name="catch_phrase"
             value={this.state.catch_phrase}
-            placeholder="Enter an Email"
+            placeholder="Enter your companies catch phrase"
           />
           <input
             onChange={this.handleChange}
@@ -45,7 +51,7 @@ class CompanySignUp extends React.Component {
             value={this.state.password}
             placeholder="Enter a Password"
           />
-          <button onClick={null} type="submit">
+          <button onClick={this.handleCompanySignUp} type="submit">
             Sign Up
           </button>
         </form>

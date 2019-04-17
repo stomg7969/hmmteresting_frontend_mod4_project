@@ -47,7 +47,7 @@ class UserContainer extends React.Component {
       <div>
         <NavBar
           user={this.props.user.username ? this.props.user : ""}
-          handleLogoutClick={this.props.handleLogoutClick}
+          handleUserLogoutClick={this.props.handleUserLogoutClick}
         />
         <Switch>
           <Route

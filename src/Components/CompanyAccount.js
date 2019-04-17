@@ -9,7 +9,7 @@ class CompanyAccount extends React.Component {
         <h1>{this.props.company.name}</h1>
         <p>{this.props.company.catch_phrase}</p>
         <button>Edit Your Account</button>
-        <button>Log Out</button>
+        <button onClick={this.props.handleCompanyLogoutClick}>Log Out</button>
       </div>
     );
   }

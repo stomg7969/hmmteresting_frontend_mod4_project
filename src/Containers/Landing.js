@@ -99,13 +99,33 @@ class Landing extends React.Component {
   };
 
   //============= HANDLES USER LOGOUT ===============//
-  handleLogoutClick = () => {
+  handleUserLogoutClick = () => {
     localStorage.removeItem("user_token");
     this.setState({ user: {} }, () => console.log("logged out"));
     this.props.history.push("/");
   };
 
-  //============= HANDLES USER LOGIN ===============//
+  //============= EDIT USER PROFILE ===============//
+  submitHandler = (userInfo, id) => {
+    let token = localStorage.getItem("user_token");
+
+    fetch(`http://localhost:3000/api/v1/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `${token}`
+      },
+      body: JSON.stringify({
+        username: userInfo.username,
+        img: userInfo.img,
+        email: userInfo.email
+      })
+    })
+      .then(r => r.json())
+      .then(data => this.setState({ user: data }));
+  };
+
+  //============= HANDLES COMPANY LOGIN ===============//
   handleCompanyLogin = company => {
     fetch("http://localhost:3000/api/v1/login_company", {
       method: "POST",
@@ -134,28 +154,41 @@ class Landing extends React.Component {
       });
   };
 
-  //============= LOGIN HELPER METHOD ===============//
-  loggedIn = () => this.state.user.username;
-
-  //============= EDIT USER PROFILE ===============//
-  submitHandler = (userInfo, id) => {
-    console.log("clicked", userInfo);
-    let token = localStorage.getItem("user_token");
-
-    fetch(`http://localhost:3000/api/v1/users/${id}`, {
-      method: "PATCH",
+  //============= HANDLES COMPANY SIGNUP ===============//
+  handleCompanySignUp = input => {
+    fetch("http://localhost:3000/api/v1/companies", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: `${token}`
+        accepts: "application/json"
       },
       body: JSON.stringify({
-        username: userInfo.username,
-        img: userInfo.img,
-        email: userInfo.email
+        company: {
+          name: input.name,
+          catch_phrase: input.catch_phrase,
+          logo: input.logo,
+          password: input.password
+        }
       })
     })
-      .then(r => r.json())
-      .then(data => this.setState({ user: data }));
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.error) {
+          alert("Incorrect Information");
+          this.props.history.push("/company/signup");
+        } else {
+          localStorage.setItem("company_token", data.token);
+          this.setState({ company: data.company }, () =>
+            this.props.history.push("/company")
+          );
+        }
+      });
+  };
+
+  handleCompanyLogoutClick = () => {
+    localStorage.removeItem("company_token");
+    this.setState({ company: {} }, () => console.log("logged out"));
+    this.props.history.push("/");
   };
 
   render() {
@@ -178,20 +211,30 @@ class Landing extends React.Component {
               <CompanyLogin handleCompanyLogin={this.handleCompanyLogin} />
             )}
           />
-          <Route path="/company/signup" component={CompanySignUp} />
+          <Route
+            path="/company/signup"
+            render={() => (
+              <CompanySignUp handleCompanySignUp={this.handleCompanySignUp} />
+            )}
+          />
           <Route
             path="/user"
             render={() => (
               <UserContainer
                 user={this.state.user}
-                handleLogoutClick={this.handleLogoutClick}
+                handleUserLogoutClick={this.handleUserLogoutClick}
                 submitHandler={this.submitHandler}
               />
             )}
           />
           <Route
             path="/company"
-            render={() => <CompanyContainer company={this.state.company} />}
+            render={() => (
+              <CompanyContainer
+                handleCompanyLogoutClick={this.handleCompanyLogoutClick}
+                company={this.state.company}
+              />
+            )}
           />
           <Route
             path="/"

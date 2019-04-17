@@ -25,7 +25,10 @@ class CompanyContainer extends React.Component {
         <h1>MY PRODUCTS:</h1>
         {products}
         <Filter />
-        <CompanyAccount company={this.props.company} />
+        <CompanyAccount
+          handleCompanyLogoutClick={this.props.handleCompanyLogoutClick}
+          company={this.props.company}
+        />
       </div>
     );
   }
