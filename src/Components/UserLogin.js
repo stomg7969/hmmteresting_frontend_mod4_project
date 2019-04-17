@@ -20,6 +20,7 @@ class UserLogin extends React.Component {
     return (
       <div>
         <h1>Login</h1>
+        {this.props.loginError ? this.props.loginError : null}
         <form>
           <input
             onChange={this.handleChange}

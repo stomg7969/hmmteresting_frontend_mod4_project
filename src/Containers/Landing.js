@@ -10,7 +10,8 @@ import CompanyLogin from "../Components/CompanyLogin";
 class Landing extends React.Component {
   state = {
     user: {},
-    company: {}
+    company: {},
+    loginError: ""
   };
 
   componentDidMount() {
@@ -84,18 +85,26 @@ class Landing extends React.Component {
         }
       })
     })
-      .then(resp => resp.json())
-      .then(data => {
-        if (data.message) {
-          alert(data.message);
-          this.props.history.push("/user/login");
+      .then(resp => {
+        if (!resp.ok) {
+          this.setState({ loginError: "Invalid Input" });
         } else {
-          localStorage.setItem("user_token", data.jwt);
+          return resp.json();
+        }
+      })
+      .then(data => {
+        if (this.state.loginError === "") {
+          localStorage.setItem("token", data.jwt);
           this.setState({ user: data.user }, () =>
             this.props.history.push("/user")
           );
+        } else {
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         }
       });
+    // .catch(error => console.error(error));
   };
 
   //============= HANDLES USER LOGOUT ===============//
@@ -216,7 +225,16 @@ class Landing extends React.Component {
         <Switch>
           <Route
             path="/user/login"
-            render={() => <UserLogin handleUserLogin={this.handleUserLogin} />}
+            render={() => (
+              <UserLogin
+                handleUserLogin={this.handleUserLogin}
+                loginError={
+                  this.state.loginError.length > 0
+                    ? this.state.loginError
+                    : null
+                }
+              />
+            )}
           />
           <Route
             path="/user/signup"

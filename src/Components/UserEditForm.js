@@ -17,6 +17,19 @@ class UserEditForm extends React.Component {
     this.props.submitHandler(this.state, this.props.user.id);
     this.props.editFormClickHandler();
   };
+
+  deleteHandler = () => {
+    let token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/api/v1/users/${this.props.user.id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `${token}`
+      }
+    }).then(() => {
+      localStorage.removeItem("token");
+      this.props.history.push("/");
+    });
+  };
   // how can we change password?
   // usually, username can't be changed, but for project, yes.
   render() {
@@ -51,6 +64,7 @@ class UserEditForm extends React.Component {
           <br />
           <button>Edit</button>
         </form>
+        <button onClick={this.deleteHandler}>Delete</button>
       </div>
     );
   }

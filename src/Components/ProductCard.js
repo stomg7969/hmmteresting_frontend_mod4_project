@@ -13,23 +13,17 @@ class ProductCard extends React.Component {
   };
 
   render() {
-    const {
-      category,
-      name,
-      description,
-      img,
-      quota,
-      company
-    } = this.props.product;
-
     const interests = this.props.product.interests;
-    console.log("WHAT AM I?", this.props.product.company);
+    const { product } = this.props;
     return (
       <div>
-        <h5>{name}</h5>
-        <img onClick={this.clickHandler} src={img} alt="" />
+        <h5>{product.name}</h5>
+        <img onClick={this.clickHandler} src={product.img} alt="" />
         <h5>
-          {/*interests.length*/}/{quota}
+          <span role="img" aria-label="">
+            👀
+          </span>{" "}
+          {/* interests.length */}/{product.quota}
         </h5>
         {this.state.clicked ? (
           <ProductShowCard product={this.props.product} />

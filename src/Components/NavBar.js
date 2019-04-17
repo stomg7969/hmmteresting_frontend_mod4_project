@@ -1,13 +1,13 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class NavBar extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/">
+        {/* <Link to="/">
           <span> |Landing Page| </span>
-        </Link>
+        </Link> */}
         <Link to="/user">
           <span> |Product List| </span>
         </Link>
