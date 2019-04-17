@@ -58,7 +58,7 @@ class ProductCard extends React.Component {
           <span role="img" aria-label="" onClick={this.interestHandler}>
             👀
           </span>{" "}
-          {product.interests.length}/{product.quota}
+          {product.interest ? null : product.interests.length}/{product.quota}
         </h5>
         {this.state.clicked ? (
           <ProductShowCard product={this.props.product} />
