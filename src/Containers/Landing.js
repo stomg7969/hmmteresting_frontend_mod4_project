@@ -10,7 +10,8 @@ import CompanyLogin from "../Components/CompanyLogin";
 class Landing extends React.Component {
   state = {
     user: {},
-    company: {}
+    company: {},
+    loginError: ""
   };
 
   componentDidMount() {
@@ -65,13 +66,26 @@ class Landing extends React.Component {
         }
       })
     })
-      .then(resp => resp.json())
+      .then(resp => {
+        if (!resp.ok) {
+          this.setState({ loginError: "Invalid Input" });
+        } else {
+          return resp.json();
+        }
+      })
       .then(data => {
-        localStorage.setItem("token", data.jwt);
-        this.setState({ user: data.user }, () =>
-          this.props.history.push("/user")
-        );
+        if (this.state.loginError === "") {
+          localStorage.setItem("token", data.jwt);
+          this.setState({ user: data.user }, () =>
+            this.props.history.push("/user")
+          );
+        } else {
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        }
       });
+    // .catch(error => console.error(error));
   };
 
   //============= HANDLES USER LOGOUT ===============//
@@ -105,13 +119,21 @@ class Landing extends React.Component {
   };
 
   render() {
-    console.log(this.state.user.username);
     return (
       <div>
         <Switch>
           <Route
             path="/user/login"
-            render={() => <UserLogin handleUserLogin={this.handleUserLogin} />}
+            render={() => (
+              <UserLogin
+                handleUserLogin={this.handleUserLogin}
+                loginError={
+                  this.state.loginError.length > 0
+                    ? this.state.loginError
+                    : null
+                }
+              />
+            )}
           />
           <Route
             path="/user/signup"
@@ -137,9 +159,7 @@ class Landing extends React.Component {
             render={() => (
               <div>
                 <div>
-                  <p>
-                    after signup / login, welcome 'username' should be rendered
-                  </p>
+                  <h1>Welcome to HMM..TERESTING. Simple design.</h1>
                   <label htmlFor="">User</label>
                   <Link to="/user/login">
                     <button>Login</button>
