@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import ProductContainer from "./ProductContainer";
+import ProductList from "../Components/ProductList";
 import UserAccount from "../Components/UserAccount";
 import FilterSearchSort from "../Components/FilterSearchSort";
 import NavBar from "../Components/NavBar";
@@ -102,7 +102,7 @@ class UserContainer extends React.Component {
           />
           <Route
             path="/user"
-            render={() => <ProductContainer products={this.searchByTerm()} />}
+            render={() => <ProductList products={this.searchByTerm()} />}
           />
         </Switch>
       </div>

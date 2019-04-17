@@ -5,7 +5,7 @@ class CompanyAccount extends React.Component {
     return (
       <div>
         <h1>Your Account Information:</h1>
-        <img src={this.props.company.logo} />
+        <img src={this.props.company.logo} alt="" />
         <h1>{this.props.company.name}</h1>
         <p>{this.props.company.catch_phrase}</p>
         <button>Edit Your Account</button>

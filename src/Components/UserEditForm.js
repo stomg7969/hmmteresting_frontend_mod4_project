@@ -19,14 +19,14 @@ class UserEditForm extends React.Component {
   };
 
   deleteHandler = () => {
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("user_token");
     fetch(`http://localhost:3000/api/v1/users/${this.props.user.id}`, {
       method: "DELETE",
       headers: {
         authorization: `${token}`
       }
     }).then(() => {
-      localStorage.removeItem("token");
+      localStorage.removeItem("user_token");
       this.props.history.push("/");
     });
   };

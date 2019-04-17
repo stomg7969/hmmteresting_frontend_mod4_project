@@ -15,8 +15,8 @@ class Landing extends React.Component {
   };
 
   componentDidMount() {
-    let user_token = localStorage.getItem("user_token");
-    let company_token = localStorage.getItem("company_token");
+    const user_token = localStorage.getItem("user_token");
+    const company_token = localStorage.getItem("company_token");
 
     if (user_token) {
       fetch("http://localhost:3000/api/v1/get_user", {
@@ -94,7 +94,7 @@ class Landing extends React.Component {
       })
       .then(data => {
         if (this.state.loginError === "") {
-          localStorage.setItem("token", data.jwt);
+          localStorage.setItem("user_token", data.jwt);
           this.setState({ user: data.user }, () =>
             this.props.history.push("/user")
           );
