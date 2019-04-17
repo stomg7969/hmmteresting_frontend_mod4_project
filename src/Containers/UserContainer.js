@@ -10,7 +10,8 @@ class UserContainer extends React.Component {
     products: [],
     clicked: false,
     searchTerm: "",
-    filterTerm: ""
+    filterTerm: "",
+    wow: ""
   };
 
   componentDidMount() {
@@ -77,8 +78,10 @@ class UserContainer extends React.Component {
   };
 
   interestUpdate = () => {
-    const newProducts = [...this.state.products];
-    this.setState({ products: newProducts });
+    fetch("http://localhost:3000/products")
+      .then(r => r.json())
+      .then(data => this.setState({ products: data }));
+    // const newProducts = [...this.state.products];
     // window.location.reload();
   };
 
@@ -87,6 +90,7 @@ class UserContainer extends React.Component {
   render() {
     return (
       <div>
+        {this.state.wow.length > 0 ? <h5>{this.state.wow}</h5> : ""}
         <NavBar
           user={this.props.user.username ? this.props.user : ""}
           handleUserLogoutClick={this.props.handleUserLogoutClick}
