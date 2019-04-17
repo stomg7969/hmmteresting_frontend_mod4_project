@@ -76,6 +76,12 @@ class UserContainer extends React.Component {
     }
   };
 
+  interestUpdate = () => {
+    const newProducts = [...this.state.products];
+    this.setState({ products: newProducts });
+    // window.location.reload();
+  };
+
   //============= CLICK HANDLERS ===============//
 
   render() {
@@ -102,7 +108,13 @@ class UserContainer extends React.Component {
           />
           <Route
             path="/user"
-            render={() => <ProductList products={this.searchByTerm()} />}
+            render={() => (
+              <ProductList
+                user={this.props.user}
+                products={this.searchByTerm()}
+                interestUpdate={this.interestUpdate}
+              />
+            )}
           />
         </Switch>
       </div>
